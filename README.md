@@ -42,7 +42,7 @@ v8.16.0
 Start with cloning this repo on your local machine:
 
 ```sh
-$ git clone https://github.com/ORG/PROJECT.git
+$ git clone https://github.com/LambdaMike/CSSPR-PUBLIC.git
 $ cd PROJECT
 ```
 
