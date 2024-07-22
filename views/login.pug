@@ -1,0 +1,39 @@
+block login
+  h1= title
+  p Welcome to the Login Page
+  form(id="loginForm")
+    div
+      label(for="username") Username:
+      input(type="text" id="username" name="username" required)
+    div
+      label(for="password") Password:
+      input(type="password" id="password" name="password" required)
+    div
+      button(type="button" onclick="submitLogin()") Login
+    div
+        a(href="/signup") Signup
+script.
+  function submitLogin() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        window.location.href = '/';
+      } else {
+        alert('Login failed: ' + data);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Login failed with error.');
+    });
+  }

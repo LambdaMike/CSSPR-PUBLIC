@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// mysql in production
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  name         String
+  roleId       Int?
+  role         Role?        @relation(fields: [roleId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  departmentId Int?
+  departement  Department?  @relation(fields: [departmentId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  permisions   Permission[]
+  Admin        Admin[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+}
+
+model Admin {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  password  String
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  deletedAt DateTime?
+}
+
+model Role {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  deletedAt DateTime?
+  User      User[]
+}
+
+model Department {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  deletedAt DateTime?
+  User      User[]
+}
+
+model System {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  deletedAt  DateTime?
+  Permission Permission[]
+}
+
+model Permission {
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  systemId Int
+  System   System  @relation(fields: [systemId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  User     User?   @relation(fields: [userId], references: [id])
+  userId   String?
+  allow    Boolean @default(false)
+}
