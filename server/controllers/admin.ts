@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
 import { ZodError } from "zod";
+import bcrypt from "bcrypt";
 import prisma from "../config/db.config";
 import { adminSchema, adminUpdateSchema } from "../middleware/validator";
 
@@ -8,7 +8,7 @@ export const create = async (req: Request, res: Response) => {
     try {
         const validatedData = adminSchema.safeParse(req.body);
         if (!validatedData.success) {
-            res.status(400).json({ message: "Invalid data", errors: validatedData.error.format() });
+            res.status(400).json( { message: "Invalid data" } );
             return;
         }
 
@@ -24,10 +24,10 @@ export const create = async (req: Request, res: Response) => {
         res.status(200).json(admin);
     } catch (e) {
         if (e instanceof ZodError) {
-            res.status(400).json({message: "Invalid data", errors: e.format()});
+            res.status(400).json({ message: "Invalid data" });
         }
         else {
-            res.status(500).json({message: "Error creating a new admin."});
+            res.status(500).json({ message: "Error creating a new admin. Maybe it already exists" });
         }
     }
 }
@@ -36,7 +36,7 @@ export const update = async (req: Request, res: Response) => {
     try {
         const validatedData = adminUpdateSchema.safeParse(req.body);
         if (!validatedData.success) {
-            res.status(400).json({ message: "Invalid data", errors: validatedData.error.format() });
+            res.status(400).json({ message: "Invalid data" });
             return;
         }
 
@@ -49,7 +49,7 @@ export const update = async (req: Request, res: Response) => {
         res.status(200).json(admin);
     } catch (e) {
         if (e instanceof ZodError) {
-            res.status(400).json({message: "Invalid data", errors: e.format()});
+            res.status(400).json({ message: "Invalid data" });
         }
         else {
             res.status(500).json({message: "Error on update admin."});
@@ -97,7 +97,7 @@ export const findAll = async (req: Request, res: Response) => {
     try {
         const { name, email } = req.query;
 
-        let query: any = {}; // Temporarily using `any` to bypass type checking. Replace `any` with the correct type based on your Prisma schema.
+        let query: any = {}; // adminQuery
         if (name) {
             query['name'] = { contains: name as string };
         }

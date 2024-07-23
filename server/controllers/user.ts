@@ -22,7 +22,7 @@ export const create = async (req: Request, res: Response) => {
         res.status(200).json(user);
     } catch (e) {
         if (e instanceof ZodError) {
-            res.status(400).json({message: "Invalid data", errors: e.format()});
+            res.status(400).json({ message: "Invalid data" });
         }
         else {
             res.status(500).json({ message: "Error on creating a new user." });
@@ -105,7 +105,6 @@ export const findAll = async (req: Request, res: Response) => {
     try {
         const { name, email } = req.query;
 
-        // Initialize the query object with the specific type
         let query: UserQuery = {};
         if (name) {
             query['name'] = { contains: name as string };

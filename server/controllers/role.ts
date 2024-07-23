@@ -7,7 +7,7 @@ export const create = async (req: Request, res: Response) => {
     try {
         const validatedData = RoleOrDepartmentSchema.safeParse(req.body);
         if (!validatedData.success) {
-            res.status(400).json({ message: "Invalid data", errors: validatedData.error.format() });
+            res.status(400).json({ message: "Invalid data" });
             return;
         }
 
@@ -19,7 +19,7 @@ export const create = async (req: Request, res: Response) => {
         res.status(200).json(role);
     } catch (e) {
         if (e instanceof ZodError) {
-            res.status(400).json({message: "Invalid data", errors: e.format()});
+            res.status(400).json({ message: "Invalid data" });
         }
         else {
             res.status(500).json({message: "Error on creating a new role."});
@@ -31,7 +31,7 @@ export const update = async (req: Request, res: Response) => {
     try {
         const validatedData = RoleOrDepartmentSchema.safeParse(req.body);
         if (!validatedData.success) {
-            res.status(400).json({ message: "Invalid data", errors: validatedData.error.format() });
+            res.status(400).json({ message: "Invalid data" });
             return;
         }
 
@@ -53,7 +53,7 @@ export const remove = async (req: Request, res: Response) => {
         await prisma.role.delete({
             where: { id: Number(req.params.id) },
         });
-        res.status(200).json({ message: "role removed successfully." }); // Corrected the unclosed string literal
+        res.status(200).json({ message: "role removed successfully." }); 
     } catch (e) {
         res.status(500).json({ message: "Error on removing role." });
     }
@@ -79,7 +79,6 @@ export const findAll = async (req: Request, res: Response) => {
     try {
         const { name, email } = req.query;
 
-        // Initialize the query object with the specific type
         let query: roleQuery = {};
         if (name) {
             query['name'] = { contains: name as string };

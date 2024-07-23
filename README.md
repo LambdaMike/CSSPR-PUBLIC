@@ -2,7 +2,7 @@
 
 # CSSPR
 
-![image](www/logo-parana.jpg)
+![image](server/public/logo-parana.jpg)
 
 ## Prerequisites
 
@@ -20,21 +20,23 @@ v8.16.0
 ## Table of contents
 
 - [CSSPR](#project-name)
-  - [Prerequisites](#prerequisites)
-  - [Table of contents](#table-of-contents)
+- [Prerequisites](#prerequisites)
+- [Server](#server)
   - [Installation](#installation)
   - [Usage](#usage)
-    - [Serving the app](#serving-the-server-in-development-mode)
+    - [Serving the server](#serving-the-server-in-development-mode)
     - [Running the tests](#running-the-tests)
   - [API](#api)
     - [API endpoints](#api-endpoints-test)
       - [Options](#options)
     - [Auth](#auth)
-  - [Contributing](#contributing)
-  - [Credits](#credits)
-  - [Authors](#authors)
-  - [License](#license)
+- [Client](#client)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [Authors](#authors)
+- [License](#license)
 
+# Server 
 ## Installation
 
 **BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
@@ -43,7 +45,7 @@ Start with cloning this repo on your local machine:
 
 ```sh
 $ git clone https://github.com/LambdaMike/CSSPR-PUBLIC.git
-$ cd PROJECT
+$ cd CSSPR-PUBLIC
 ```
 
 To install and set up the library, run:
@@ -116,6 +118,9 @@ app.use(session({
 initPassport(app);
 ```
 
+# Client
+
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
@@ -143,6 +148,8 @@ This is a fork of [CSSPR](https://github.com/RhianFelipe/ControleSistema)
 
 * **Rhian Felipe** - *Original work/project* - [RhianFelipe](https://github.com/RhianFelipe)
 
+* **Victor Marques** - *Currently developer* - [LambdaMike](https://github.com/LambdaMike)
+
 ## License
 
-[MIT License](https://andreasonny.mit-license.org/2019) ©Victor Marques
+[MIT License](https://andreasonny.mit-license.org/2019) © Victor Marques
