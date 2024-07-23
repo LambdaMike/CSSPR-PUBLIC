@@ -2,19 +2,19 @@
 
 # CSSPR
 
-![image](server/public/logo-parana.jpg)
+![image](public/logo-parana.jpg)
 
 ## Prerequisites
 
-This project requires NodeJS (version 8 or later) and NPM.
+This project requires NodeJS (version 8 or later) and NPM.v
 [Node](http://nodejs.org/) and [NPM](https://npmjs.org/) are really easy to install.
 To make sure you have them available on your machine,
 try running the following command.
 
 ```sh
 $ npm -v && node -v
-6.4.1
-v8.16.0
+10.8.1
+v20.13.1
 ```
 
 ## Table of contents
@@ -31,7 +31,6 @@ v8.16.0
       - [Options](#options)
     - [Auth](#auth)
 - [Client](#client)
-- [Contributing](#contributing)
 - [Credits](#credits)
 - [Authors](#authors)
 - [License](#license)
@@ -119,18 +118,7 @@ initPassport(app);
 ```
 
 # Client
-
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-1.  Fork it!
-2.  Create your feature branch: `git checkout -b my-new-feature`
-3.  Add your changes: `git add .`
-4.  Commit your changes: `git commit -am 'Add some feature'`
-5.  Push to the branch: `git push origin my-new-feature`
-6.  Submit a pull request :sunglasses:
+- ### todo...
 
 ## Credits
 
@@ -138,10 +126,10 @@ This is a fork of [CSSPR](https://github.com/RhianFelipe/ControleSistema)
 
 ## Built With
 
-* Node
-* Typescript
-* Vuejs (Frontend)
-* Prisma ORM
+* Node (Server)
+* Typescript (Server)
+* Prisma ORM (Server)
+* Vuejs (Client)
 * Love <3
 
 ## Authors
@@ -152,4 +140,4 @@ This is a fork of [CSSPR](https://github.com/RhianFelipe/ControleSistema)
 
 ## License
 
-[MIT License](https://andreasonny.mit-license.org/2019) © Victor Marques
+[MIT License](/LICENSE) © Victor Marques
