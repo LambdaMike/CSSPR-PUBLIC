@@ -2,7 +2,7 @@
 
 # CSSPR
 
-![image](public/logo-parana.jpg)
+![image](public/logo-branco.png)
 
 ## Prerequisites
 
