@@ -16,12 +16,11 @@
                     src="../assets/logo.png"
                     alt="Logo"
                     contain
-                    width="150px"
+                    width="160px"
                     class="mr-3 ml-7"
                     ></v-img>
                 </div>
             </a>
-            <p>Tab value: {{ tab }}</p>
             <v-spacer></v-spacer>
   
             <v-tabs
@@ -38,7 +37,7 @@
           
             <v-menu >
               <template v-slot:activator="{ props }">
-                <v-icon size="36" class="mr-4" v-bind="props">mdi-account-circle</v-icon>
+                <v-icon size="45" class="mr-5" v-bind="props">mdi-account-circle</v-icon>
               </template>
 
               <v-list>
@@ -53,31 +52,6 @@
         </v-app-bar>
   
         <v-main>
-            <v-tabs-window v-model="tab">
-            <v-tabs-window-item
-              v-for="n in 4"
-              :key="n"
-              :value="n"
-            >
-              <v-container fluid>
-                <v-row>
-                  <v-col
-                    v-for="i in 6"
-                    :key="i"
-                    cols="12"
-                    md="4"
-                  >
-                    <v-img
-                      :lazy-src="`https://picsum.photos/10/6?image=${i * n * 5 + 10}`"
-                      :src="`https://picsum.photos/500/300?image=${i * n * 5 + 10}`"
-                      height="205"
-                      cover
-                    ></v-img>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-tabs-window-item>
-          </v-tabs-window>
         </v-main>
       </v-layout>
   </template>
@@ -87,15 +61,20 @@ export default {
   data: () => ({
     tab: null,
     items: [
-        { title: 'Admin' },
-        { title: 'Test' },
-        { title: 'Opçoes' },
-        { title: 'Sair' },
-      ],
+      { title: 'Admin' },
+      { title: 'Test' },
+      { title: 'Opçoes' },
+      { title: 'Sair' },
+    ],
   }),
   methods: {
     emitTab() {
       this.$emit('update-tab', this.tab);
+    },
+  },
+  watch: {
+    tab(newVal) {
+      this.emitTab();
     },
   },
 };
