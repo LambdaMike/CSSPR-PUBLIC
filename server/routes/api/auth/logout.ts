@@ -5,8 +5,7 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         res.clearCookie('connect.sid');
-
-        res.redirect('/api/auth/login'); // Redirect to login page or home page after logout
+        res.status(200).json({ message: "Logout successful" });
     });
 });
 

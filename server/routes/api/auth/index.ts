@@ -4,13 +4,15 @@ import { Router } from 'express';
 import login from './login';
 import signup from './signup';
 import logout from "./logout";
-import check from "./check";
 
 const router = Router();
+
+router.get('/', isAuthenticated ,(req, res) => {
+    res.status(200).json({ message: "Authenticated" });
+});
 
 router.use('/login', login);
 router.use('/signup', signup);
 router.use('/logout', isAuthenticated, logout);
-router.use('/check', isAuthenticated, check);
 
 export default router;

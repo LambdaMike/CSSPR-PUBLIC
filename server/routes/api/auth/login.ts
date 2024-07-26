@@ -3,7 +3,7 @@ import passport from "passport";
 const router = Router();
 
 router.post('/', passport.authenticate('local'), async (req: Request, res: Response) => {
-    res.send('You were authenticated & logged in!').status(200);
+    res.json({ message: "Login successful" }).status(200);
     return true;
 });
 

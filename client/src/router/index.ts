@@ -4,7 +4,6 @@ import { routes } from 'vue-router/auto-routes';
 import NotFound from '../pages/NotFound.vue';
 import axios from 'axios';
 
-// Add the 404 route at the end of the routes array
 routes.push({
   path: '/:pathMatch(.*)*',
   name: '404',
@@ -16,33 +15,27 @@ const router = createRouter({
   routes,
 });
 
-// Global navigation guard to check authentication
+const public_routes = ['/login', '/signup'];
+
 router.beforeEach(async (to, from, next) => {
   try {
-    const response = await axios.get('/api/auth/check');
-    const isAuthenticated = response.data.isAuthenticated;
+    const response = await axios.get('http://localhost:3001/api/auth/', {
+      withCredentials: true 
+    });
 
-    if (!isAuthenticated && to.path !== '/login') {
+    let isAuthenticated = false
+    
+    if(response.status === 200) {
+      isAuthenticated = true;
+    }
+    // loop to fix
+    if (to.path !== 'login' && !isAuthenticated) {
       next({ path: '/login' });
     } else {
       next();
     }
   } catch (error) {
-    console.error('Error checking authentication:', error);
     next({ path: '/login' });
-  }
-});
-
-// Workaround for https://github.com/vitejs/vite/issues/11804
-router.onError((err, to) => {
-  if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
-    if (!localStorage.getItem('vuetify:dynamic-reload')) {
-      console.log('Reloading page to fix dynamic import error');
-      localStorage.setItem('vuetify:dynamic-reload', 'true');
-      location.assign(to.fullPath);
-    } else {
-      localStorage.removeItem('vuetify:dynamic-reload');
-    }
   }
 });
 

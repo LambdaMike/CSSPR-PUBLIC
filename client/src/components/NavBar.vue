@@ -45,7 +45,15 @@
                   v-for="(item, i) in items"
                   :key="i"
                 >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-action>
+
+                  <a :href="item.url" class="custom-link">
+                    <v-list-item-title>
+                      <v-icon v-if="item.icon">{{ item.icon }}</v-icon>
+                      {{ item.title }}
+                    </v-list-item-title>
+                  </a>
+                </v-list-item-action>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -61,16 +69,15 @@ export default {
   data: () => ({
     tab: null,
     items: [
-      { title: 'Admin' },
-      { title: 'Test' },
-      { title: 'Opçoes' },
-      { title: 'Sair' },
+      { title: 'Admin', icon: 'mdi-lock', url: '/admin/' },
+      { title: 'Opçoes', icon: 'mdi-cog',  url: '/settings/'},
+      { title: 'Sair', icon: 'mdi-logout', url: '/logout/' },
     ],
   }),
   methods: {
     emitTab() {
       this.$emit('update-tab', this.tab);
-    },
+    }
   },
   watch: {
     tab(newVal) {
@@ -79,3 +86,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.custom-link {
+  color: inherit; /* Inherit color from parent */
+  text-decoration: none; /* Remove underline */
+}
+</style>

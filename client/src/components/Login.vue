@@ -7,7 +7,7 @@
     <h5 class="mb-3 text-center">CONTROLE DE SISTEMAS</h5>
     
 
-    <v-card class="mx-auto pa-10 pb-8" elevation="8" min-width="400" max-width="500" rounded="lg">
+    <v-card class="mx-auto pa-10 pb-8" elevation="8"  max-width="510" rounded="lg">
       <div class="text-subtitle-1 text-medium-emphasis">Usuário</div>
 
       <v-text-field v-model="username" density="compact" placeholder="Usuário" prepend-inner-icon="mdi-account-outline"
@@ -43,20 +43,23 @@ export default {
   methods: {
     async sendData() {
       try {
-        const data = {
+        const response = await axios.post('http://localhost:3001/api/auth/login', {
           username: this.username,
           password: this.password
-        };
-        const response = await axios.post('http://localhost:3000/api/auth/login', {
-          data: data
         }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          withCredentials: true // This ensures cookies are sent and received
         });
-        console.log('Response:', response.data);
+
+        if (response.status === 200) {
+          // Handle successful login
+          console.log('Login successful:', response.data);
+          // Redirect or perform other actions as needed
+        } else {
+          // Handle login failure
+          console.error('Login failed:', response.data);
+        }
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error during login:', error);
       }
     }
   }

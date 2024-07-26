@@ -54,5 +54,5 @@ export function isAuthenticated(req: Request ,res: Response, next: NextFunction)
     if(req.user)
         return next();
     else
-        res.redirect('/api/auth/login');
+        return res.status(401).json({ message: "Unauthorized" });
 }
