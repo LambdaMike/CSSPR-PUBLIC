@@ -67,6 +67,8 @@ $ npx prima generate
 $ npx nodemon ./server.ts
 ```
 
+The server will be accessible at [http://localhost:3001](http://localhost:3001) (change port on server.ts)
+
 ## API
 
 ### API endpoints test
@@ -118,7 +120,7 @@ initPassport(app);
 ```
 
 # Client
-- ### todo...
+- ##### Check [Client](/client/README.md) README
 
 ## Credits
 

@@ -2,7 +2,7 @@ import * as passportStrategy from "passport-local";
 import passport, {use} from "passport";
 import bcrypt from "bcrypt";
 import { Express, Request, Response, NextFunction } from "express";
-import prisma from "../config/db.config";
+import prisma from "./db";
 
 export function initPassport(app: Express) {
     app.use(passport.initialize());

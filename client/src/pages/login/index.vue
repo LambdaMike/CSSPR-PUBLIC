@@ -12,5 +12,4 @@
   </template>
   
   <style scoped>
-  /* No additional styles needed */
   </style>

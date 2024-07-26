@@ -51,15 +51,12 @@ export default {
         });
 
         if (response.status === 200) {
-          // Handle successful login
-          console.log('Login successful:', response.data);
-          // Redirect or perform other actions as needed
+          console.log('Login successful:');
         } else {
-          // Handle login failure
-          console.error('Login failed:', response.data);
+          console.error('Login failed:');
         }
       } catch (error) {
-        console.error('Error during login:', error);
+        console.error('API fetch error, check if server is okay');
       }
     }
   }

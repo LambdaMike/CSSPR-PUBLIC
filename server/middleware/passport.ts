@@ -1,6 +1,6 @@
 import { Express, Request, Response, NextFunction } from "express";
 import * as passportStrategy from "passport-local";
-import prisma from "../config/db.config";
+import prisma from "../config/db";
 import passport, {use} from "passport";
 import bcrypt from "bcrypt";
 

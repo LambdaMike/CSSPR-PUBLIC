@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ZodError } from "zod";
 import bcrypt from "bcrypt";
-import prisma from "../config/db.config";
+import prisma from "../config/db";
 import { adminSchema, adminUpdateSchema } from "../middleware/validator";
 
 export const create = async (req: Request, res: Response) => {

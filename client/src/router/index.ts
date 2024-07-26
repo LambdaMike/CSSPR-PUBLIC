@@ -15,27 +15,33 @@ const router = createRouter({
   routes,
 });
 
-const public_routes = ['/login', '/signup'];
-
 router.beforeEach(async (to, from, next) => {
   try {
-    const response = await axios.get('http://localhost:3001/api/auth/', {
-      withCredentials: true 
+    const response = await fetch('http://localhost:3001/api/auth', {
+      method: 'GET',
+      credentials: 'include'
     });
 
-    let isAuthenticated = false
-    
-    if(response.status === 200) {
-      isAuthenticated = true;
+    const isAuthenticated = response.ok;
+
+    if (to.path === '/login' && isAuthenticated) {
+      next( {path: '/' } );
+      return;
     }
-    // loop to fix
-    if (to.path !== 'login' && !isAuthenticated) {
-      next({ path: '/login' });
-    } else {
+    else if (to.path === '/login' && !isAuthenticated) {
       next();
+      return;
     }
-  } catch (error) {
-    next({ path: '/login' });
+
+    if (response.status === 200) {
+      next();
+      return;
+    } else {
+      next({ path: '/login' });
+      return;
+    }
+  } catch (error) { 
+    next( { path: '/login' });
   }
 });
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ZodError } from "zod";
-import prisma from "../config/db.config";
+import prisma from "../config/db";
 import { userSchema, userUpdateSchema } from "../middleware/validator";
 
 export const create = async (req: Request, res: Response) => {
