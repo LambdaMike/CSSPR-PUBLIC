@@ -3,6 +3,7 @@
         <v-app-bar
           color="teal-darken-4"
           image="../assets/bandeira.svg"
+            style="opacity: 0.9;"
         >
             <template v-slot:image>
                 <v-img

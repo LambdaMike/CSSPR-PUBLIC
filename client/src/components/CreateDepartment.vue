@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="submit">
-      <p>Departamento</p>
+      <p>Setor</p>
       <v-text-field
         v-model="name.value.value"
         :counter="60"
@@ -58,15 +58,15 @@
           .then(response => {
             loading.value = false;
             if (!response.ok) {
-              toastr.error('Erro ao criar departamento');
+              toastr.error('Erro ao criar setor, talvez já exista outro setor com mesmo nome');
             } else {
-              toastr.success('Departamento criado com sucesso');
+              toastr.success('Setor criado com sucesso');
               handleReset();
             }
           })
           .catch(error => {
             loading.value = false;
-            toastr.error('Erro ao criar departamento');
+            toastr.error('Erro ao criar setor, talvez já exista outro setor com mesmo nome');
           });
         }, 1000);
       });

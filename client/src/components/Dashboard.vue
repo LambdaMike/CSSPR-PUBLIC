@@ -8,7 +8,7 @@
           :key="n"
           :value="n"
         >
-          <v-container fluid class="fill-height">
+          <v-container fluid class="fill-height mb-15">
             <div v-if="selectedTab == 1">
               <create-user />
             </div>

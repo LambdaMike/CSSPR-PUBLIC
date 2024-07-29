@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submit">
-    <p>Cargo</p>
+    <p>Grupo</p>
     <v-text-field
       v-model="name.value.value"
       :counter="60"
@@ -58,15 +58,15 @@
         .then(response => {
           loading.value = false;
           if (!response.ok) {
-            toastr.error('Erro ao criar cargo');
+            toastr.error('Erro ao criar Grupo');
           } else {
-            toastr.success('Cargo criado com sucesso');
+            toastr.success('Grupo criado com sucesso');
             handleReset();
           }
         })
         .catch(error => {
           loading.value = false;
-          toastr.error('Erro ao criar cargo');
+          toastr.error('Erro ao criar grupo, talvez já exista outro grupo com mesmo nome');
         });
       }, 1000);
     });
