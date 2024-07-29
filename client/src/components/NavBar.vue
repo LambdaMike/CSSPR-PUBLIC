@@ -70,7 +70,7 @@ export default {
     tab: null,
     items: [
       { title: 'Admin', icon: 'mdi-lock', url: '/admin/' },
-      { title: 'Opçoes', icon: 'mdi-cog',  url: '/settings/'},
+      { title: 'Opções', icon: 'mdi-cog',  url: '/settings/'},
       { title: 'Sair', icon: 'mdi-logout', url: '/logout/' },
     ],
   }),

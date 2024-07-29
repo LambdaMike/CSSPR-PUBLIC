@@ -1,8 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router/auto';
 import { routes } from 'vue-router/auto-routes';
-import NotFound from '../pages/NotFound.vue';
-import axios from 'axios';
+import NotFound from '../pages/error/404/index.vue';
 
 routes.push({
   path: '/:pathMatch(.*)*',
@@ -17,6 +16,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
+    if (to.path === '/error/internal') {
+      next();
+      return;
+    }
+
     const response = await fetch('http://localhost:3001/api/auth', {
       method: 'GET',
       credentials: 'include'
@@ -41,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
       return;
     }
   } catch (error) { 
-    next( { path: '/login' });
+    next( { path: '/error/internal' });
   }
 });
 

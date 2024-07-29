@@ -4,9 +4,9 @@
         <img src="@/assets/logo-escuro.jpg" alt="Click aqui para ir para Home" class="logo" style="height: 150px;" />
       </a>
       <div class="d-flex justify-content-center align-items-center">
-        <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center">404</h1>
+        <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center">500</h1>
         <div class="inline-block align-middle">
-          <h2 class="font-weight-normal lead" id="desc">Página não encontrada.</h2>
+          <h2 class="font-weight-normal lead" id="desc">Error interno do servidor. Contate o administrador ou <a href="/">Tente novamente</a>.</h2>
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
   
   <script>
   export default {
-    name: 'NotFound',
+    name: 'Internal',
   };
   </script>
   

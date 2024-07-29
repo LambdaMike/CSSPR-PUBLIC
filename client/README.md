@@ -29,7 +29,9 @@ npm run dev
 To build your project for production, use:
 
 ```bash
-npm build
+npm run build
+npm install -g serve
+serve -s dist
 ```
 
 ## License
