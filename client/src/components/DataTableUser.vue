@@ -3,6 +3,7 @@
       :headers="headers"
       :items="users"
       :sort-by="[{ key: 'email', order: 'asc' }]"
+      v-if="!loading"
     >
       <template v-slot:top>
         <v-toolbar
@@ -138,20 +139,24 @@
           mdi-delete
         </v-icon>
       </template>
-      <template v-slot:no-data>
-        <v-btn
-          color="primary"
-          @click="initialize"
-        >
-          Reset
-        </v-btn>
-      </template>
+    </v-data-table>
+    <v-data-table
+      v-else
+      :headers="loadingHeaders"
+      :items="loadingItems"
+      :loading="loading"
+    >
+    <template v-slot:loading>
+      <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+    </template>
     </v-data-table>
   </template>
-  <script setup>
+
+<script setup>
   import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue';
   import axios from 'axios';
 
+  const loading = ref(true);
   const dialog = ref(false);
   const dialogDelete = ref(false);
   const headers = [
@@ -194,18 +199,47 @@
   });
   
   onMounted(async () => {
-    try {
-        const response = 
-            await axios.get('http://localhost:3001/api/user', {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        users.value = response.data;
-        } catch (error) {
+    const fetchData = async () => {
+      try {
+        const usersData = await axios.get('http://localhost:3001/api/user', {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const rolesData = await axios.get('http://localhost:3001/api/role', {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const departmentsData = await axios.get('http://localhost:3001/api/department', {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        users.value = usersData.data.map((user) => {
+          const role = rolesData.data.find((role) => role.id === user.roleId);
+          const department = departmentsData.data.find((department) => department.id === user.departmentId);
+          return {
+            ...user,
+            roleId: role.name,
+            departmendId: department.name,
+          };
+        });
+      } catch (error) {
         console.error('Error fetching users:', error);
-    } 
+      }
+    };
+
+      setTimeout(() => {
+        fetchData();
+        loading.value = false;
+      }, 500);
   });
   
   function editItem(item) {

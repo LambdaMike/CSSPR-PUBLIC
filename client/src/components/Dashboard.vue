@@ -54,8 +54,8 @@ export default {
 }
 
 .fill-height {
-  flex: 1;
-  display: flex;
+  flex: 50%;
+  display: fablex;
   flex-direction: column;
 }
 </style>

@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { ZodError } from "zod";
-import prisma from "../config/db";
+
 import { userSchema, userUpdateSchema } from "../middleware/validator";
+import prisma from "../config/db";
 
 export const create = async (req: Request, res: Response) => {
     try {
@@ -103,7 +104,7 @@ interface UserQuery {
 
 export const findAll = async (req: Request, res: Response) => {
     try {
-        const { name, email } = req.query;
+        let { name, email, count } = req.query;
 
         let query: UserQuery = {};
         if (name) {
@@ -112,9 +113,20 @@ export const findAll = async (req: Request, res: Response) => {
         if (email) {
             query['email'] = { contains: email as string };
         }
+        
+        let parsedCount = 25;
+
+        if (count) {
+            try {
+                parsedCount = parseInt(count as string);
+            } catch (e) {
+                parsedCount = 25;    
+            }
+        } 
 
         const users = await prisma.user.findMany({
-            where: query
+            where: query,
+            take: parsedCount
         });
 
         res.status(200).json(users);

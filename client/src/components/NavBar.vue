@@ -1,5 +1,5 @@
 <template>
-    <v-layout>
+    <v-layout style="min-height: 60px;">
         <v-app-bar
           color="teal-darken-4"
           image="../assets/bandeira.svg"
@@ -29,13 +29,14 @@
                 align-tabs="center"
                 color="light-blue-lighten-5"
                 class="mr-14"
+                scrollable
                 >
                 <v-tab :value="1">Cadastrar Usuários</v-tab>
                 <v-tab :value="2">Filtrar Usuários</v-tab>
                 <v-tab :value="3">Lista de Usuários</v-tab>
                 <v-tab :value="4">Logs de Usuário</v-tab>
             </v-tabs>
-          
+            
             <v-menu >
               <template v-slot:activator="{ props }">
                 <v-icon size="45" class="mr-5" v-bind="props">mdi-account-circle</v-icon>
