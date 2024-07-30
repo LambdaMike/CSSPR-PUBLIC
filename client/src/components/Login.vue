@@ -11,75 +11,80 @@
       <div class="text-subtitle-1 text-medium-emphasis">
         Usuário
       </div>
-
       <v-text-field v-model="username" density="compact" placeholder="Usuário" prepend-inner-icon="mdi-account-outline"
         variant="outlined">
       </v-text-field>
-
       <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
         Senha
       </div>
-
       <v-text-field v-model="password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
-        density="compact" placeholder="Coloque sua senha" prepend-inner-icon="mdi-lock-outline" variant="outlined"
+        density="compact" placeholder="Senha" prepend-inner-icon="mdi-lock-outline" variant="outlined"
         @click:append-inner="visible = !visible">
       </v-text-field>
-
       <a class="text-caption text-decoration-none text-blue" href="#" rel="noopener noreferrer" target="_blank">
         Esqueceu a senha?
       </a>
-
       <v-btn :loading="loading" @click="sendData" block class="mb-8 mt-3" color="blue" size="large" variant="tonal">
         Entrar
       </v-btn>
     </v-card>
   </div>
 </template>
+
 <script>
-import toastr from 'toastr';
-import 'toastr/build/toastr.min.css';
+  import toastr from 'toastr';
+  import 'toastr/build/toastr.min.css';
+  import axios from 'axios';
 
-export default {
-  data: () => ({
-    visible: false,
-    username: 'admin',
-    password: 'admin',
-    loading: false
-  }),
-  methods: {
-    async sendData() {
-      this.loading = true;
-      setTimeout(async () =>{
-      try {
-        const response = await fetch('http://localhost:3001/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include', 
-          body: JSON.stringify({
-            username: this.username,
-            password: this.password
-          })
-        });
+  export default {
+    data: () => ({
+      visible: false,
+      username: 'admin',
+      password: 'admin',
+      loading: false
+    }),
+    methods: {
+      async sendData() {
+        this.loading = true;
+        setTimeout(async () =>{
+          try {
+            const loginData = JSON.stringify({
+                username: this.username,
+                password: this.password
+            });
 
-        if (!response.ok) {
-          toastr.error('Usuário ou senha inválidos');
-          this.loading = false;
-        }
-        if (response.ok) {
-          this.$router.push('/');
-        }  
-      } catch (error) {
-          toastr.error('Usuário ou senha inválidos');
-      } finally {
-        this.loading = false;
+            await axios.post('http://localhost:3001/api/auth/login', loginData, {
+              withCredentials: true,
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => {
+              if (response.status === 200) {
+                this.loading = false;
+                toastr.success('Login efetuado com sucesso', null, { timeOut: 200 });
+                setTimeout(() => { this.$router.push('/'); }, 300);
+              } 
+              else {
+                toastr.error('Usuário ou senha inválidos');
+                this.loading = false;
+              }
+            })
+            .catch(error => {
+              console.log("ERR NO CATCH: " + error);
+              this.loading = false;
+              toastr.error('Usuário ou senha inválidos');
+            });
+          } 
+          catch (error) {
+            this.loading = false;
+            toastr.error('Usuário ou senha inválidos');
+          }
+        },
+        1000);
       }
-      },
-       1000);
     }
   }
-}
 </script>
 
 <script>

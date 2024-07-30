@@ -1,50 +1,47 @@
 <template>
     <v-card
     class="mx-auto"
-    max-width="700px"
     min-width="400px"
-    min-height="550px"
-    max-height="600px"
+    max-width="600px"
     >
-    <v-card-title class="custom-title">
-      <v-icon class="mr-1">mdi-account</v-icon>
-      Cadastrar Usuário
-    </v-card-title>
-        <v-container>
-          <v-form @submit.prevent="submit">
-            <v-text-field
-              v-model="name.value.value"
-              label="Nome"
-              :error-messages="name.errorMessage.value"
-              clearable
-            ></v-text-field>
-            <v-text-field
-              v-model="email.value.value"
-              label="Email"
-              type="email"
-              :error-messages="email.errorMessage.value"
-              clearable
-            ></v-text-field>
-            <v-select
-              v-model="roleId.value.value"
-              :items="roles.map(role => role.name)"
-              item-text="name"
-              item-value="id"
-              :error-messages="roleId.errorMessage.value"
-              label="Selecione o Grupo"
-            ></v-select>
-            <v-select
-              v-model="departmentId.value.value"
-              :items="departments.map(department => department.name)"
-              item-text="name"
-              item-value="id"
-              label="Selecione o Setor"
-              :error-messages="departmentId.errorMessage.value"
-            ></v-select>
-
-            <v-btn :loading="loading" type="submit" size="large" block color="primary" variant="tonal" class="mt-2">Cadastrar</v-btn>
-          </v-form>
-        </v-container>
+      <v-card-title class="custom-title">
+        <v-icon class="mr-1">mdi-account</v-icon>
+        Cadastrar Usuário
+      </v-card-title>
+          <v-container>
+            <v-form @submit.prevent="submit">
+              <v-text-field
+                v-model="name.value.value"
+                label="Nome"
+                :error-messages="name.errorMessage.value"
+                clearable
+              ></v-text-field>
+              <v-text-field
+                v-model="email.value.value"
+                label="Email"
+                type="email"
+                :error-messages="email.errorMessage.value"
+                clearable
+              ></v-text-field>
+              <v-select
+                v-model="roleId.value.value"
+                :items="roles.map(role => role.name)"
+                item-text="name"
+                item-value="id"
+                :error-messages="roleId.errorMessage.value"
+                label="Selecione o Grupo"
+              ></v-select>
+              <v-select
+                v-model="departmentId.value.value"
+                :items="departments.map(department => department.name)"
+                item-text="name"
+                item-value="id"
+                label="Selecione o Setor"
+                :error-messages="departmentId.errorMessage.value"
+              ></v-select>
+              <v-btn :loading="loading" type="submit" size="large" block color="primary" variant="tonal" class="mt-2">Cadastrar</v-btn>
+            </v-form>
+          </v-container>
     </v-card>
   </template>
   
@@ -108,26 +105,26 @@
           console.log(userData)
 
           await axios.post('http://localhost:3001/api/user', userData, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => {
-          loading.value = false;
-          console.log(response)
-          if (response.status === 200) {
-            toastr.success('Usuário criado com sucesso');
-          } else {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            loading.value = false;
+            console.log(response)
+            if (response.status === 200) {
+              toastr.success('Usuário criado com sucesso');
+            } else {
+              toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
+              handleReset();
+            }
+          })
+          .catch(error => {
+            loading.value = false;
             toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
-            handleReset();
-          }
-        })
-        .catch(error => {
-          loading.value = false;
-          toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
-        });
-      }, 1000);
+          });
+        }, 1000);
     });
 
     const departments = ref([]);

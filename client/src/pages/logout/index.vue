@@ -35,7 +35,6 @@ export default {
 
 <template>
     <div>
-        <h1>Saindo... Até mais</h1>
-        <div v-if="loading">Carregando...</div>
+        <h1>Saindo...</h1>
     </div>
 </template>

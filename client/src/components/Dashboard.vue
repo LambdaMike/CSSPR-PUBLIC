@@ -8,7 +8,7 @@
           :key="n"
           :value="n"
         >
-          <v-container fluid class="fill-height mb-15">
+          <v-container fluid class="fill-height">
             <div v-if="selectedTab == 1">
               <create-user />
             </div>
@@ -19,14 +19,7 @@
               <create-department />
             </div>
             <div v-else>
-              <v-card>
-                <v-card-title>Tab {{ selectedTab }}</v-card-title>
-                <v-card-text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  nonne merninisti licere mihi ista probare, quae sunt a te
-                  dicta? Refert tamen, quo modo.
-                </v-card-text>
-              </v-card>
+              <data-table-user />
             </div>
           </v-container>
         </v-tabs-window-item>
