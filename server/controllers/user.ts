@@ -8,7 +8,7 @@ export const create = async (req: Request, res: Response) => {
     try {
         const validatedData = userSchema.safeParse(req.body);
         if (!validatedData.success) {
-            res.status(400).json({ message: "Invalid data", errors: validatedData.error.format() });
+            res.status(400).json({ message: "Invalid data" });
             return;
         }
 
@@ -16,8 +16,8 @@ export const create = async (req: Request, res: Response) => {
             data: {
                 name: validatedData.data.name,
                 email: validatedData.data.email,
-                roleId: validatedData.data.roleId,
-                departmentId: validatedData.data.departmentId,
+                role: validatedData.data.role,
+                department: validatedData.data.department,
             }
         });
         res.status(200).json(user);
@@ -42,8 +42,8 @@ export const update = async (req: Request, res: Response) => {
         const userData = {
             ...(validatedData.data.name ? { name: validatedData.data.name } : {}),
             ...(validatedData.data.email ? { email: validatedData.data.email } : {}),
-            ...(validatedData.data.roleId ? { roleId: validatedData.data.roleId } : {}),
-            ...(validatedData.data.departmentId ? { departmentId: validatedData.data.departmentId } : {}),
+            ...(validatedData.data.role ? { role: validatedData.data.role } : {}),
+            ...(validatedData.data.department ? { department: validatedData.data.department } : {}),
         };
 
         const user = await prisma.user.update({

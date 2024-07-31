@@ -10,7 +10,7 @@
         >
           <v-container fluid class="fill-height">
             <div v-if="selectedTab == 1">
-              <create-user />
+              <create-user :create="true" />
             </div>
             <div v-else-if="selectedTab == 2">
               <create-role />

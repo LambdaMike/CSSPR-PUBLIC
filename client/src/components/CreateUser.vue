@@ -24,20 +24,20 @@
                 clearable
               ></v-text-field>
               <v-select
-                v-model="roleId.value.value"
+                v-model="role.value.value"
                 :items="roles.map(role => role.name)"
                 item-text="name"
                 item-value="id"
-                :error-messages="roleId.errorMessage.value"
+                :error-messages="role.errorMessage.value"
                 label="Selecione o Grupo"
               ></v-select>
               <v-select
-                v-model="departmentId.value.value"
+                v-model="department.value.value"
                 :items="departments.map(department => department.name)"
                 item-text="name"
                 item-value="id"
                 label="Selecione o Setor"
-                :error-messages="departmentId.errorMessage.value"
+                :error-messages="department.errorMessage.value"
               ></v-select>
               <v-btn :loading="loading" type="submit" size="large" block color="primary" variant="tonal" class="mt-2">Cadastrar</v-btn>
             </v-form>
@@ -73,12 +73,12 @@
         return true
       },
 
-      roleId (value) {
+      role (value) {
         if (value) return true
         return 'Campo obrigatório.'
       },
   
-      departmentId (value) {
+      department (value) {
         if (value) return true
         return 'Campo obrigatório.'
       },
@@ -88,8 +88,8 @@
 
   const name = useField('name')
   const email = useField('email')
-  const roleId = useField('roleId')
-  const departmentId = useField('departmentId')
+  const role = useField('role')
+  const department = useField('department')
 
   const submit = handleSubmit(values => {
       loading.value = true;
@@ -98,8 +98,8 @@
           const userData = JSON.stringify({
             name: values.name,
             email: values.email,
-            roleId: roles.value.find(role => role.name === values.roleId).id,
-            departmentId: departments.value.find(department => department.name === values.departmentId).id
+            role: values.role,
+            department: values.department
           });
 
           console.log(userData)

@@ -3,15 +3,15 @@ import { z } from 'zod';
 export const userSchema = z.object({
     name: z.string().min(3, { message: "Name must be at least 3 characters long." }),
     email: z.string().email({ message: "Invalid email." }),
-    roleId: z.number({message: "Invalid role id."}),
-    departmentId: z.number({message: "Invalid department id."}),
+    role: z.string().min(3, { message: "Role must be at least 3 characters long." }),
+    department: z.string().min(3, { message: "Department must be at least 3 characters long." }),
 });
 
 export const userUpdateSchema = z.object({
     name: z.string().min(3, { message: "Name must be at least 3 characters long." }).optional(),
     email: z.string().email({ message: "Invalid email." }).optional(),
-    roleId: z.number({message: "Invalid role id."}).optional(),
-    departmentId: z.number({message: "Invalid department id."}).optional(),
+    role: z.string().min(3, { message: "Role must be at least 3 characters long." }).optional(),
+    department: z.string().min(3, { message: "Department must be at least 3 characters long." }).optional(),
 });
 
 export const adminSchema = z.object({

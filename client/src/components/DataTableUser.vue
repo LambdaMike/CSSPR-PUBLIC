@@ -1,15 +1,17 @@
 <template>
     <v-data-table
       :headers="headers"
-      :items="users"
+      :items="usersData"
       :sort-by="[{ key: 'email', order: 'asc' }]"
       v-if="!loading"
+      style="width: 1000px;"
     >
       <template v-slot:top>
         <v-toolbar
             prominent
+            color="blue-lighten-5"
         >
-          <v-toolbar-title>Listar Usuário</v-toolbar-title>
+          <v-toolbar-title style="font-weight: 2px;">Listar Usuários</v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -68,8 +70,8 @@
                       sm="6"
                     >
                       <v-text-field
-                        v-model="editedItem.roleId"
-                        label="roleId"
+                        v-model="editedItem.role"
+                        label="Grupo"
                       ></v-text-field>
                     </v-col>
                     <v-col
@@ -78,8 +80,8 @@
                       sm="6"
                     >
                       <v-text-field
-                        v-model="editedItem.departmendId"
-                        label="departmendId"
+                        v-model="editedItem.department"
+                        label="Setor"
                       ></v-text-field>
                     </v-col>
                     <v-col
@@ -140,22 +142,13 @@
         </v-icon>
       </template>
     </v-data-table>
-    <v-data-table
-      v-else
-      :headers="loadingHeaders"
-      :items="loadingItems"
-      :loading="loading"
-    >
-    <template v-slot:loading>
-      <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
-    </template>
-    </v-data-table>
   </template>
 
 <script setup>
   import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue';
   import axios from 'axios';
 
+  const hasFetchedData = ref(false)
   const loading = ref(true);
   const dialog = ref(false);
   const dialogDelete = ref(false);
@@ -167,25 +160,27 @@
       key: 'name',
     },
     { title: 'Email', key: 'email' },
-    { title: 'Grupo', key: 'roleId' },
-    { title: 'Setor', key: 'departmendId' },
-    { title: 'Actions', key: 'actions', sortable: false },
+    { title: 'Grupo', key: 'role' },
+    { title: 'Setor', key: 'department' },
+    { title: 'Ações', key: 'actions', sortable: false },
   ];
   const users = ref([]);
   const editedIndex = ref(-1);
   const editedItem = reactive({
     name: '',
     email: 0,
-    roleId: 0,
-    departmendId: 0,
+    role: 0,
+    department: 0,
   });
   const defaultItem = {
     name: '',
     email: 0,
-    roleId: 0,
-    departmendId: 0,
+    role: 0,
+    department: 0,
   };
   
+  const usersData = ref([]);
+
   const formTitle = computed(() => {
     return editedIndex.value === -1 ? 'Novo Usuário' : 'Editar Usuário';
   });
@@ -199,47 +194,11 @@
   });
   
   onMounted(async () => {
-    const fetchData = async () => {
-      try {
-        const usersData = await axios.get('http://localhost:3001/api/user', {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        const rolesData = await axios.get('http://localhost:3001/api/role', {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        const departmentsData = await axios.get('http://localhost:3001/api/department', {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        users.value = usersData.data.map((user) => {
-          const role = rolesData.data.find((role) => role.id === user.roleId);
-          const department = departmentsData.data.find((department) => department.id === user.departmentId);
-          return {
-            ...user,
-            roleId: role.name,
-            departmendId: department.name,
-          };
-        });
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-
-      setTimeout(() => {
-        fetchData();
-        loading.value = false;
-      }, 500);
+    if (!hasFetchedData.value) {
+      await fetchData();
+      hasFetchedData.value = true;
+      loading.value = false;
+    }
   });
   
   function editItem(item) {
@@ -283,4 +242,19 @@
     }
     close();
   }
+
+  async function fetchData() {
+    try {
+      const users = await axios.get('http://localhost:3001/api/user', {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      usersData.value = users.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   </script>
