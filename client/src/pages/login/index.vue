@@ -5,7 +5,7 @@
           <Login />
         </div>
         <div class="col-md-8 p-0">
-          <img src="../../assets/pinheiro.jpg" alt="Description of image" class="img-fluid w-100 h-100" style="object-fit: cover;" />
+          <img src="../../assets/login-wallpaper.jpg" alt="Description of image" class="img-fluid w-100 h-100" style="object-fit: cover;" />
         </div>
       </div>
     </div>

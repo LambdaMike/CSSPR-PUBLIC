@@ -1,8 +1,8 @@
 <template>
     <v-card
     class="mx-auto"
-    min-width="400px"
-    max-width="600px"
+    min-width="450px"
+    max-width="450px"
     >
       <v-card-title class="custom-title">
         <v-icon class="mr-1">mdi-account</v-icon>
@@ -39,6 +39,25 @@
                 label="Selecione o Setor"
                 :error-messages="department.errorMessage.value"
               ></v-select>
+              <v-select
+                v-model="selectedSystems.value.value"
+                :items="systems.map(item => item.name)"
+                label="Gerenciar Sistemas"
+                :error-messages="selectedSystems.errorMessage.value"
+                multiple
+              >
+                <template v-slot:selection="{ item, index }">
+                <v-chip v-if="index < 3">
+                    <span>{{ item.title }}</span>
+                </v-chip>
+                <span
+                    v-if="index === 3"
+                    class="text-grey text-caption align-self-center"
+                >
+                    (+{{ selectedSystems.value.value.length - 3 }} outros)
+                </span>
+                </template>
+              </v-select>
               <v-btn :loading="loading" type="submit" size="large" block color="primary" variant="tonal" class="mt-2">Cadastrar</v-btn>
             </v-form>
           </v-container>
@@ -46,7 +65,7 @@
   </template>
   
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { useField, useForm } from 'vee-validate'
   import validator from 'validator';
@@ -82,6 +101,11 @@
         if (value) return true
         return 'Campo obrigatório.'
       },
+
+      SelectedSystems (value) {
+        if (value && value.length > 0) return true
+        return 'Campo obrigatório.'
+      }
     },
 
   })
@@ -90,61 +114,85 @@
   const email = useField('email')
   const role = useField('role')
   const department = useField('department')
+  const systems = ref([]);
+  const selectedSystems = useField('SelectedSystems');
 
   const submit = handleSubmit(values => {
       loading.value = true;
 
       setTimeout(async () => {
-          const userData = JSON.stringify({
+          try {
+            const userData = JSON.stringify({
             name: values.name,
             email: values.email,
-            role: values.role,
-            department: values.department
+            roleId: roles.value.find(role => role.name === values.role).id,
+            departmentId: departments.value.find(department => department.name === values.department).id
           });
+          
+            console.log(userData)
 
-          console.log(userData)
-
-          await axios.post('http://localhost:3001/api/user', userData, {
-            withCredentials: true,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          .then(response => {
-            loading.value = false;
-            console.log(response)
-            if (response.status === 200) {
-              toastr.success('Usuário criado com sucesso');
-            } else {
+            await axios.post('http://localhost:3001/api/user', userData, {
+              withCredentials: true,
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => {
+              loading.value = false;
+              console.log(response)
+              if (response.status === 200) {
+                toastr.success('Usuário criado com sucesso');
+              } else {
+                toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
+                handleReset();
+              }
+            })
+            .catch(error => {
+              loading.value = false;
               toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
-              handleReset();
-            }
-          })
-          .catch(error => {
+            });
+          } catch (e) {
             loading.value = false;
-            toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
-          });
+            toastr.error('Erro ao criar usuário');
+          }
         }, 1000);
     });
 
     const departments = ref([]);
     const roles = ref([]);
 
-    axios.get('http://localhost:3001/api/department', { withCredentials: true })
-      .then(response => {
-        departments.value = response.data;
-      })
-      .catch(error => {
-        console.error('Error fetching departments:', error);
+    
+    
+onMounted(async () => {
+    try {
+      await axios.get('http://localhost:3001/api/system', {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => { 
+        systems.value = response.data;
       });
-
-    axios.get('http://localhost:3001/api/role', { withCredentials: true })
+      
+      axios.get('http://localhost:3001/api/role', { withCredentials: true })
       .then(response => {
         roles.value = response.data;
       })
       .catch(error => {
         console.error('Error fetching roles:', error);
       });
+      
+      axios.get('http://localhost:3001/api/department', { withCredentials: true })
+        .then(response => {
+          departments.value = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching departments:', error);
+        });
+    } catch (error) {
+        console.log('Errors to fetch data', error);
+    }
+});
 </script>
 
 <style scoped>

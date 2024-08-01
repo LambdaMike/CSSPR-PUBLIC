@@ -31,7 +31,6 @@
               >
                 Novo Usuário
               </v-btn>
-              
               <v-btn icon>
                 <v-icon>mdi-magnify</v-icon>
               </v-btn>
@@ -70,7 +69,7 @@
                       sm="6"
                     >
                       <v-text-field
-                        v-model="editedItem.role"
+                        v-model="editedItem.roleId"
                         label="Grupo"
                       ></v-text-field>
                     </v-col>
@@ -80,7 +79,7 @@
                       sm="6"
                     >
                       <v-text-field
-                        v-model="editedItem.department"
+                        v-model="editedItem.departmentId"
                         label="Setor"
                       ></v-text-field>
                     </v-col>
@@ -113,13 +112,13 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-dialog v-model="dialogDelete" max-width="30%">
             <v-card>
-              <v-card-title class="text-h5">Você tem certeza que deseja deletar esse usuário?</v-card-title>
+                <v-card-title class="text-h5">Deletar usuário?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancelar</v-btn>
-                <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">Confirmar</v-btn>
+                <v-btn color="red-darken-3" variant="text" @click="deleteItemConfirm">Confirmar</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>

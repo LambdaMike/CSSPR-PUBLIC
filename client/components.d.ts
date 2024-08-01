@@ -13,6 +13,7 @@ declare module 'vue' {
     Dashboard: typeof import('./src/components/Dashboard.vue')['default']
     DataTableUser: typeof import('./src/components/DataTableUser.vue')['default']
     FooterBar: typeof import('./src/components/FooterBar.vue')['default']
+    ListSystems: typeof import('./src/components/ListSystems.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

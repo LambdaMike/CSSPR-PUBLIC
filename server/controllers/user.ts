@@ -16,8 +16,8 @@ export const create = async (req: Request, res: Response) => {
             data: {
                 name: validatedData.data.name,
                 email: validatedData.data.email,
-                role: validatedData.data.role,
-                department: validatedData.data.department,
+                roleId: validatedData.data.roleId,
+                departmentId: validatedData.data.departmentId,
             }
         });
         res.status(200).json(user);
@@ -42,8 +42,8 @@ export const update = async (req: Request, res: Response) => {
         const userData = {
             ...(validatedData.data.name ? { name: validatedData.data.name } : {}),
             ...(validatedData.data.email ? { email: validatedData.data.email } : {}),
-            ...(validatedData.data.role ? { role: validatedData.data.role } : {}),
-            ...(validatedData.data.department ? { department: validatedData.data.department } : {}),
+            ...(validatedData.data.roleId ? { roleId: validatedData.data.roleId } : {}),
+            ...(validatedData.data.departmentId ? { departmentId: validatedData.data.departmentId } : {}),
         };
 
         const user = await prisma.user.update({

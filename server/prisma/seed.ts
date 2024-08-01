@@ -71,6 +71,20 @@ async function main() {
     { name: 'Advogado' },
   ];
 
+  const systems = [
+    { name: 'Copel' },
+    { name: 'Sipro' },
+    { name: 'Detran' },
+    { name: 'SFEPGE' },
+    { name: 'PROAJU' },
+    { name: 'INDSEC' },
+    { name: 'e-Protocolo' },
+    { name: 'Intranet(adm)' },
+    { name: 'Internet(adm)' },
+    { name: 'Terminal Celepar' },
+    { name: 'Ofício Eletrônico/Arisp' },
+  ]
+
   for (const item of roles) {
     await prisma.role.create({
       data: item,
@@ -79,6 +93,12 @@ async function main() {
 
   for (const item of departments) {
     await prisma.department.create({
+      data: item,
+    });
+  }
+
+  for (const item of systems) {
+    await prisma.system.create({
       data: item,
     });
   }

@@ -12,10 +12,12 @@ model User {
   id           String       @id @default(uuid())
   email        String       @unique
   name         String
-  role         String 
-  department   String
   permisions   Permission[]
   Admin        Admin[]
+  roleId       Int?
+  role         Role?        @relation(fields: [roleId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  departmentId Int?
+  departement  Department?  @relation(fields: [departmentId], references: [id], onUpdate: Cascade, onDelete: SetNull)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   deletedAt    DateTime?
@@ -33,11 +35,13 @@ model Admin {
 model Role {
   id        Int       @id @default(autoincrement())
   name      String    @unique
+  users      User[]
 }
 
 model Department {
   id        Int       @id @default(autoincrement())
   name      String    @unique
+  users      User[]
 }
 
 model System {
