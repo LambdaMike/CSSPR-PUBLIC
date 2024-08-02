@@ -1,3 +1,4 @@
+import { permission } from 'process';
 import { z } from 'zod';
 
 export const userSchema = z.object({
@@ -32,4 +33,10 @@ export const RoleOrDepartmentOrSystemSchema = z.object({
 
 export const RoleOrDepartmentUpdateSchema = z.object({
     name: z.string().min(1, { message: "Name must be at least 1 characters long." }).optional(),
+});
+
+export const permissionSchema = z.object({
+    userId : z.string(),
+    systemId: z.number(),
+    allow: z.boolean(),
 });

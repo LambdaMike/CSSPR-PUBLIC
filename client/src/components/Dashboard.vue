@@ -35,14 +35,16 @@ export default {
   components: { CreateRole },
   data() {
     return {
-      selectedTab: 1
+      selectedTab: 1,
+      maxHeight: 700,
     };
   },
   methods: {
     handleTabUpdate(newTab) {
       this.selectedTab = newTab;
     }
-  }
+  },
+
 };
 </script>
 
@@ -55,7 +57,7 @@ export default {
 
 .fill-height {
   flex: 50%;
-  display: fablex;
+  display: flex;
   flex-direction: column;
 }
 </style>

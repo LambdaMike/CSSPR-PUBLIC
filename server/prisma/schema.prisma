@@ -12,12 +12,12 @@ model User {
   id           String       @id @default(uuid())
   email        String       @unique
   name         String
-  permisions   Permission[]
-  Admin        Admin[]
-  roleId       Int?
+  departement  Department?  @relation(fields: [departmentId], references: [id], onUpdate: Cascade, onDelete: SetNull)
   role         Role?        @relation(fields: [roleId], references: [id], onUpdate: Cascade, onDelete: SetNull)
   departmentId Int?
-  departement  Department?  @relation(fields: [departmentId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  roleId       Int?
+  permissions   Permission[]
+  Admin        Admin[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   deletedAt    DateTime?
@@ -28,7 +28,7 @@ model Admin {
   username  String    @unique
   password  String
   userId    String?
-  user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
   deletedAt DateTime?
 }
 
@@ -53,10 +53,11 @@ model System {
 
 model Permission {
   id       Int     @id @default(autoincrement())
-  name     String  @unique
-  systemId Int
-  System   System  @relation(fields: [systemId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   User     User?   @relation(fields: [userId], references: [id])
-  userId   String?
+  System   System  @relation(fields: [systemId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId   String
+  systemId Int
   allow    Boolean @default(false)
+
+  @@unique([userId, systemId])
 }

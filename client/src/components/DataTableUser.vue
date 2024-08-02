@@ -1,10 +1,11 @@
 <template>
     <v-data-table
+      class="data-table"
       :headers="headers"
       :items="usersData"
       :sort-by="[{ key: 'email', order: 'asc' }]"
       v-if="!loading"
-      style="width: 1000px;"
+      style="font-size: 1em; overflow-y: auto; max-width: 1500px; min-width: auto; width: max-content;"
     >
       <template v-slot:top>
         <v-toolbar
@@ -39,7 +40,6 @@
               <v-card-title>
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
-  
               <v-card-text>
                 <v-container>
                   <v-row>
@@ -100,7 +100,7 @@
                   variant="text"
                   @click="close"
                 >
-                  Cancel
+                  Cancelar
                 </v-btn>
                 <v-btn
                   color="blue-darken-1"
@@ -141,13 +141,20 @@
         </v-icon>
       </template>
     </v-data-table>
+    <v-progress-circular
+      v-else
+      :size="60"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+
   </template>
 
 <script setup>
   import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue';
   import axios from 'axios';
 
-  const hasFetchedData = ref(false)
+  const isMounted = ref(false) 
   const loading = ref(true);
   const dialog = ref(false);
   const dialogDelete = ref(false);
@@ -159,8 +166,8 @@
       key: 'name',
     },
     { title: 'Email', key: 'email' },
-    { title: 'Grupo', key: 'role' },
-    { title: 'Setor', key: 'department' },
+    { title: 'Grupo', key: 'roleId' },
+    { title: 'Setor', key: 'departmentId' },
     { title: 'Ações', key: 'actions', sortable: false },
   ];
   const users = ref([]);
@@ -179,6 +186,8 @@
   };
   
   const usersData = ref([]);
+  const roles = ref([]);
+  const departments = ref([]);
 
   const formTitle = computed(() => {
     return editedIndex.value === -1 ? 'Novo Usuário' : 'Editar Usuário';
@@ -192,11 +201,13 @@
     if (!val) closeDelete();
   });
   
-  onMounted(async () => {
-    if (!hasFetchedData.value) {
-      await fetchData();
-      hasFetchedData.value = true;
-      loading.value = false;
+  onMounted(() => {
+    if (!isMounted.value) {
+      setTimeout(async () => {
+        await fetchData();
+        isMounted.value = true;
+        loading.value = false;
+      }, 600);
     }
   });
   
@@ -250,10 +261,43 @@
           'Content-Type': 'application/json'
         }
       });
-      usersData.value = users.data;
+
+      await axios.get('http://localhost:3001/api/role', { withCredentials: true })
+      .then(response => {
+        roles.value = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching roles:');
+      });
+      
+      await axios.get('http://localhost:3001/api/department', { withCredentials: true })
+        .then(response => {
+          departments.value = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching departments:');
+        });
+
+      const userInfo = users.data.map(user => {
+        return {
+          name: user.name,
+          email: user.email,
+          roleId: roles.value.find(role => role.id === user.roleId).name,
+          departmentId: departments.value.find(department => department.id === user.departmentId).name,
+        }
+      });
+
+      usersData.value = userInfo;
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao carregar o componente");
     }
   }
-
   </script>
+
+<style scoped>
+  .data-table {
+    flex-grow: 1;
+    height: 650px;
+    max-height: fit-content;
+  }
+</style>

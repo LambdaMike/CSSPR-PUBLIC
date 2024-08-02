@@ -103,8 +103,7 @@
       },
 
       SelectedSystems (value) {
-        if (value && value.length > 0) return true
-        return 'Campo obrigatório.'
+        return true
       }
     },
 
@@ -137,19 +136,35 @@
                 'Content-Type': 'application/json'
               }
             })
-            .then(response => {
-              loading.value = false;
+            .then(async response => {
               console.log(response)
+
               if (response.status === 200) {
+                
+                for (let i = 0; i < selectedSystems.value.value.length; i++) {
+                  let newPermission = {
+                    userId: response.data.id,
+                    systemId: Number(systems.value.find(system => system.name === selectedSystems.value.value[i]).id),
+                    allow: true
+                  }
+
+                  await axios.post('http://localhost:3001/api/permission', newPermission, { withCredentials: true })
+                  .catch(error => {
+                    console.log('Usuário foi criado, porém não foi possivel designar as permissões.');
+                  });
+                }
+                
+                loading.value = false;
                 toastr.success('Usuário criado com sucesso');
               } else {
-                toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
+                loading.value = false;
+                toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo email');
                 handleReset();
               }
             })
             .catch(error => {
               loading.value = false;
-              toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo nome');
+              toastr.error('Erro ao criar usuário, talvez já exista outro usuário com mesmo email');
             });
           } catch (e) {
             loading.value = false;
