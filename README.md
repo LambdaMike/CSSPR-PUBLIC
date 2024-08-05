@@ -61,7 +61,7 @@ $ npx prima db push
 
 Seed database with sample data: 
 ```sh
-$ npx ts-node seed.ts
+$ npx ts-node prisma/seed.ts
 ```
 
 ## Usage
@@ -69,7 +69,7 @@ $ npx ts-node seed.ts
 ### Serving the server in development mode
 
 ```sh
-$ npx ts-node prisma/seed.ts
+$ npx nodemon server.ts
 ```
 
 The server will be accessible at [http://localhost:3001](http://localhost:3001) (change port on server.ts)

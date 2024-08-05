@@ -89,7 +89,10 @@ export const restore = async (req: Request, res: Response) => {
 export const findOne = async (req: Request, res: Response) => {
     try {
         const user = await prisma.user.findUnique({
-            where: { id: String(req.params.id) }
+            where: { 
+                id: String(req.params.id),
+                deletedAt: null
+             }
         });
         res.status(200).json(user);
     } catch (e) {
@@ -125,7 +128,10 @@ export const findAll = async (req: Request, res: Response) => {
         } 
 
         const users = await prisma.user.findMany({
-            where: query,
+            where: {
+                ...query,
+                deletedAt: null
+            },
             take: parsedCount
         });
 

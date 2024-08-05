@@ -8,11 +8,9 @@
       <span class="text-muted">© 2024 Procuradoria Geral do Estado do Paraná</span>
     </div>
 
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-    </ul>
+    <div class="col-md-3 text-md-end">
+      <a href="https://github.com/LambdaMike/CSSPR-PUBLIC" target="_blank"><img src="../assets/github-mark.svg" alt="CSSPR" width="20" height="20" style="opacity: 0.7;"></a>
+    </div>
   </footer>
 </div>
 </template>

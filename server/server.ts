@@ -34,11 +34,10 @@ app.use(session({
 }));
 initPassport(app);
 
-// api routes for testing
-
+// api routes
 app.use('/api', api);
 
-// catch 404 and forward to error handler
+// catch 404
 app.use(function(req: Request, res: Response, next: NextFunction) {
   next(createError(404));
 });
@@ -49,7 +48,6 @@ app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
 });
 

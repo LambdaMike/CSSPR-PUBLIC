@@ -31,9 +31,9 @@
                 class="mr-14"
                 scrollable
                 >
-                <v-tab :value="1">Cadastrar Usuários</v-tab>
+                <v-tab :value="1">Cadastrar Usuário</v-tab>
                 <v-tab :value="2">Filtrar Usuários</v-tab>
-                <v-tab :value="3">Lista de Usuários</v-tab>
+                <v-tab :value="3">Listar Usuários</v-tab>
                 <v-tab :value="4">Logs de Usuário</v-tab>
             </v-tabs>
             
@@ -60,7 +60,6 @@
               </v-list>
             </v-menu>
         </v-app-bar>
-  
         <v-main>
         </v-main>
       </v-layout>

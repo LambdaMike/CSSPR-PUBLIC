@@ -60,7 +60,8 @@ async function main() {
     { name:  'EXT - Externo' },
     { name:  'CG - Corregedoria-Geral' },
     { name:  'PRC - Procuradoria Consultiva' },
-    { name:  'ADV - Consultivo Autarquias' }
+    { name:  'ADV - Consultivo Autarquias' },
+    { name: 'Padrão'}
   ];
 
   const roles = [
@@ -86,6 +87,23 @@ async function main() {
     { name: 'Ofício Eletrônico/Arisp' },
   ]
 
+  // dev mode
+  const admins = [
+    {
+      username: 'admin',
+      password: '$2b$10$a.M4qOUAJbyV40mCJs6uKO2EofDcMu7fsK2th92aDD/aARf4aRMwC',
+    }
+  ]
+
+  const users = [
+    {
+      name: 'user',
+      email: 'email@email.com',
+      roleId: 1,
+      departmentId: 1
+    }
+  ]
+
   for (const item of roles) {
     await prisma.role.create({
       data: item,
@@ -100,6 +118,18 @@ async function main() {
 
   for (const item of systems) {
     await prisma.system.create({
+      data: item,
+    });
+  }
+
+  for (const item of admins) {
+    await prisma.admin.create({
+      data: item,
+    });
+  }
+
+  for (const item of users) {
+    await prisma.user.create({
       data: item,
     });
   }

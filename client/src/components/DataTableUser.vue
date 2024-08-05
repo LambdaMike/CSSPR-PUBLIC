@@ -5,7 +5,7 @@
       :items="usersData"
       :sort-by="[{ key: 'email', order: 'asc' }]"
       v-if="!loading"
-      style="font-size: 1em; overflow-y: auto; max-width: 1500px; min-width: auto; width: max-content;"
+      style="font-size: 1em; overflow-y: auto; max-width: 1500px; min-width: auto; width: max-content; min-width: 650px;"
     >
       <template v-slot:top>
         <v-toolbar
@@ -14,7 +14,6 @@
         >
           <v-toolbar-title style="font-weight: 2px;">Listar Usuários</v-toolbar-title>
           <v-divider
-            class="mx-4"
             inset
             vertical
           ></v-divider>
@@ -25,96 +24,31 @@
           >
             <template v-slot:activator="{ props }">
               <v-btn
-                class="mb-2"
+                class="mb-2 mt-3"
                 color="primary"
                 dark
                 v-bind="props"
               >
                 Novo Usuário
               </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">{{ formTitle }}</span>
-              </v-card-title>
               <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col
-                      cols="12"
-                      md="4"
-                      sm="6"
-                    >
-                      <v-text-field
-                        v-model="editedItem.name"
-                        label="Nome"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      md="4"
-                      sm="6"
-                    >
-                      <v-text-field
-                        v-model="editedItem.email"
-                        label="email"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      md="4"
-                      sm="6"
-                    >
-                      <v-text-field
-                        v-model="editedItem.roleId"
-                        label="Grupo"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      md="4"
-                      sm="6"
-                    >
-                      <v-text-field
-                        v-model="editedItem.departmentId"
-                        label="Setor"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      md="4"
-                      sm="6"
-                    >
-                    </v-col>
-                  </v-row>
-                </v-container>
+                <v-text-field
+                  :loading="loading"
+                  append-inner-icon="mdi-magnify"
+                  density="compact"
+                  label="Procurar"
+                  variant="solo"
+                  hide-details
+                  single-line
+                  @click:append-inner="onClick"
+                ></v-text-field>
               </v-card-text>
-  
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="blue-darken-1"
-                  variant="text"
-                  @click="close"
-                >
-                  Cancelar
-                </v-btn>
-                <v-btn
-                  color="blue-darken-1"
-                  variant="text"
-                  @click="save"
-                >
-                  Salvar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+            </template>
+            <create-user></create-user>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="30%">
             <v-card>
-                <v-card-title class="text-h5">Deletar usuário?</v-card-title>
+              <v-card-title class="text-h5">Deletar usuário?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancelar</v-btn>
@@ -154,6 +88,9 @@
   import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue';
   import axios from 'axios';
 
+  import toastr from 'toastr';
+  import 'toastr/build/toastr.min.css';
+
   const isMounted = ref(false) 
   const loading = ref(true);
   const dialog = ref(false);
@@ -174,25 +111,21 @@
   const editedIndex = ref(-1);
   const editedItem = reactive({
     name: '',
-    email: 0,
-    role: 0,
-    department: 0,
+    email: '',
+    roleId: -1,
+    departmentId: -1,
   });
   const defaultItem = {
     name: '',
-    email: 0,
-    role: 0,
-    department: 0,
+    email: '',
+    roleId: -1,
+    departmentId: -1,
   };
   
   const usersData = ref([]);
   const roles = ref([]);
   const departments = ref([]);
 
-  const formTitle = computed(() => {
-    return editedIndex.value === -1 ? 'Novo Usuário' : 'Editar Usuário';
-  });
-  
   watch(dialog, (val) => {
     if (!val) close();
   });
@@ -223,8 +156,21 @@
     dialogDelete.value = true;
   }
   
-  function deleteItemConfirm() {
+  async function deleteItemConfirm() {
     users.value.splice(editedIndex.value, 1);
+    const userId = usersData.value.find(user => user.email === editedItem.email).id;
+    try {
+      await axios.delete(`http://localhost:3001/api/user/${userId}`, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      usersData.value = usersData.value.filter(user => user.id !== userId);
+      toastr.success('Usuário deletado com sucesso!');
+    } catch (error) {
+      toastr.error('Erro ao deletar usuário');
+    }
     closeDelete();
   }
   
@@ -239,7 +185,6 @@
   function closeDelete() {
     dialogDelete.value = false;
     nextTick(() => {
-      Object.assign(editedItem, defaultItem);
       editedIndex.value = -1;
     });
   }
@@ -280,6 +225,7 @@
 
       const userInfo = users.data.map(user => {
         return {
+          id: user.id,
           name: user.name,
           email: user.email,
           roleId: roles.value.find(role => role.id === user.roleId).name,

@@ -178,7 +178,7 @@
 
     
     
-onMounted(async () => {
+  onMounted(async () => {
     try {
       await axios.get('http://localhost:3001/api/system', {
         withCredentials: true,
@@ -207,7 +207,7 @@ onMounted(async () => {
     } catch (error) {
         console.log('Errors to fetch data', error);
     }
-});
+  });
 </script>
 
 <style scoped>
