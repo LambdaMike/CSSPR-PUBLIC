@@ -85,7 +85,7 @@
   </template>
 
 <script setup>
-  import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue';
+  import { ref, reactive, watch, onMounted, nextTick } from 'vue';
   import axios from 'axios';
 
   import toastr from 'toastr';

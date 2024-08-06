@@ -56,8 +56,43 @@
                 >
                     (+{{ selectedSystems.value.value.length - 3 }} outros)
                 </span>
-                </template>
-              </v-select>
+              </template>
+            </v-select>
+            <v-container fluid>
+              <v-row justify="start">
+                <v-col cols="auto">
+                  <v-checkbox
+                    v-model="tcc"
+                    :label="`TCC?`"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
+                    v-model="tur"
+                    :label="`TUR?`"
+                  ></v-checkbox>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-if="tcc || tur"
+                    v-model="sid.value.value"
+                    label="SID termos"
+                    clearable
+                    counter="12"
+                    :error-messages="sid.errorMessage.value"
+                  ></v-text-field>
+                  <v-text-field
+                    v-else
+                    v-model="sid.value.value"
+                    label="SID termos"
+                    clearable
+                    counter="12"
+                    :error-messages="sid.errorMessage.value"
+                    disabled
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
               <v-btn :loading="loading" type="submit" size="large" block color="primary" variant="tonal" class="mt-2">Cadastrar</v-btn>
             </v-form>
           </v-container>
@@ -72,7 +107,7 @@
 
   import toastr from 'toastr';
   import 'toastr/build/toastr.min.css';
-
+  
   const loading = ref(false);
 
   const { handleSubmit, handleReset } = useForm({
@@ -104,17 +139,44 @@
 
       SelectedSystems (value) {
         return true
+      },
+
+      sid (value) {
+        if (value) {
+          if (value.length > 0) {
+            sid.value.value =  sid.value.value.replace(/\D/g, '');
+            if (!validator.isLength(value, { max: 9 })) {
+              sid.value.value = sid.value.value.slice(0, 9);
+            }
+            
+            if (value.length > 2) sid.value.value = sid.value.value.slice(0, 2) + '.' + sid.value.value.slice(2);
+            if (value.length > 6) sid.value.value = sid.value.value.slice(0, 6) + '.' + sid.value.value.slice(6);
+            if (value.length > 10) sid.value.value = sid.value.value.slice(0, 10) + '-' + sid.value.value.slice(10, 11);
+            
+            sid.value.value = sid.value.value.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, '$1.$2.$3-$4');
+
+            if (!/^\d{2}\.\d{3}\.\d{3}-\d{1}$/.test(value)) return 'Formato inválido. Ex: 00.000.000-0';
+          }
+        }
+        return true
       }
     },
 
   })
 
-  const name = useField('name')
-  const email = useField('email')
-  const role = useField('role')
-  const department = useField('department')
+  const name = useField('name');
+  const email = useField('email');
+  const role = useField('role');
+  const sid = useField('sid');
+  const department = useField('department');
   const systems = ref([]);
   const selectedSystems = useField('SelectedSystems');
+  const tur = ref(false);
+  const tcc = ref(false);
+  
+  // api
+  const departments = ref([]);
+  const roles = ref([]);
 
   const submit = handleSubmit(values => {
       loading.value = true;
@@ -173,8 +235,6 @@
         }, 1000);
     });
 
-    const departments = ref([]);
-    const roles = ref([]);
 
     
     

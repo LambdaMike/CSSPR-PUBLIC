@@ -18,6 +18,7 @@ model User {
   roleId       Int?
   permissions   Permission[]
   Admin        Admin[]
+  sid          Sid[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   deletedAt    DateTime?
@@ -60,4 +61,13 @@ model Permission {
   allow    Boolean @default(false)
 
   @@unique([userId, systemId])
+}
+
+model Sid {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  userId    String?
+
+  @@unique([name, userId])
 }

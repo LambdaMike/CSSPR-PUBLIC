@@ -70,7 +70,8 @@ async function main() {
     { name: 'Procurador' },
     { name: 'Terceirizado' },
     { name: 'Advogado' },
-    { name: 'Estagiário' }
+    { name: 'Estagiário' },
+    { name: 'Padrão'}
   ];
 
   const systems = [
