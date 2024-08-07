@@ -47,7 +47,7 @@ export const update = async (req: Request, res: Response) => {
         };
 
         const user = await prisma.user.update({
-            where: { id: String(req.params.id) },
+            where: { id: Number(req.params.id) },
             data: userData
         });
         res.status(200).json(user);
@@ -64,7 +64,7 @@ export const update = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
     try {
         await prisma.user.update({
-            where: { id: String(req.params.id) },
+            where: { id: Number(req.params.id) },
             data: { deletedAt: new Date() }
         });
         res.status(200).json({ message: "User removed successfully." }); // Corrected the unclosed string literal
@@ -76,7 +76,7 @@ export const remove = async (req: Request, res: Response) => {
 export const restore = async (req: Request, res: Response) => {
     try {
         await prisma.user.update({
-            where: { id: String(req.params.id) },
+            where: { id: Number(req.params.id) },
             data: { deletedAt: null }
         });
         res.status(200).json({ message: "User restored successfully." });
@@ -90,7 +90,7 @@ export const findOne = async (req: Request, res: Response) => {
     try {
         const user = await prisma.user.findUnique({
             where: { 
-                id: String(req.params.id),
+                id: Number(req.params.id),
                 deletedAt: null
              }
         });

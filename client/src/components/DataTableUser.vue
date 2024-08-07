@@ -57,6 +57,9 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="dialogEdit">
+            <edit-user></edit-user>
+          </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -145,9 +148,8 @@
   });
   
   function editItem(item) {
-    editedIndex.value = users.value.indexOf(item);
-    Object.assign(editedItem, item);
-    dialog.value = true;
+    console.log(item);
+    dialogEdit.value = true;
   }
   
   function deleteItem(item) {
@@ -174,6 +176,8 @@
     closeDelete();
   }
   
+  const dialogEdit = ref(false);
+
   function close() {
     dialog.value = false;
     nextTick(() => {

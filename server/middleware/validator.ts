@@ -18,13 +18,13 @@ export const userUpdateSchema = z.object({
 export const adminSchema = z.object({
     username: z.string().min(3, { message: "Username must be at least 3 characters long." }),
     password: z.string().min(3, { message: "Password must be at least 3 characters long" }), // Password implement .min(6) in production
-    userId: z.string().optional(),
+    userId: z.number().optional(),
 });
 
 export const adminUpdateSchema = z.object({
     username: z.string().min(3, { message: "Username must be at least 3 characters long." }).optional(),
     password: z.string().min(3, { message: "Password must be at least 3 characters long" }).optional(), // Password implement .min(6) in production
-    userId: z.string().optional(),
+    userId: z.number().optional(),
 });
 
 export const RoleOrDepartmentOrSystemSchema = z.object({
@@ -36,7 +36,7 @@ export const RoleOrDepartmentUpdateSchema = z.object({
 });
 
 export const permissionSchema = z.object({
-    userId : z.string(),
+    userId : z.number(),
     systemId: z.number(),
     allow: z.boolean(),
 });

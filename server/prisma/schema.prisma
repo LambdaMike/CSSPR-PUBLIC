@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id           String       @id @default(uuid())
+  id           Int       @id @default(autoincrement())
   email        String       @unique
   name         String
   departement  Department?  @relation(fields: [departmentId], references: [id], onUpdate: Cascade, onDelete: SetNull)
@@ -28,8 +28,9 @@ model Admin {
   id        Int       @id @default(autoincrement())
   username  String    @unique
   password  String
-  userId    String?
   user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  userId    Int?
+  allow Boolean @default(false)
   deletedAt DateTime?
 }
 
@@ -56,7 +57,7 @@ model Permission {
   id       Int     @id @default(autoincrement())
   User     User?   @relation(fields: [userId], references: [id])
   System   System  @relation(fields: [systemId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId   String
+  userId   Int
   systemId Int
   allow    Boolean @default(false)
 
@@ -67,7 +68,7 @@ model Sid {
   id        Int       @id @default(autoincrement())
   name      String    @unique
   user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
-  userId    String?
+  userId    Int?
 
   @@unique([name, userId])
 }

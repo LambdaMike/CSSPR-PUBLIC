@@ -96,7 +96,7 @@ Example:
 export const adminSchema = z.object({
     username: z.string().min(3, { message: "Username must be at least 3 characters long." }),
     password: z.string().min(3, { message: "Password must be at least 3 characters long" }), // Password implement .min(6) in production
-    userId: z.string().optional(),
+    userId: z.number().optional(),
 });
 
 // OR

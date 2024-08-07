@@ -25,7 +25,7 @@
               ></v-text-field>
               <v-select
                 v-model="role.value.value"
-                :items="roles.map(role => role.name)"
+                :items="roles.map(role => role.name).sort((a, b) => a.localeCompare(b))"
                 item-text="name"
                 item-value="id"
                 :error-messages="role.errorMessage.value"
@@ -33,7 +33,7 @@
               ></v-select>
               <v-select
                 v-model="department.value.value"
-                :items="departments.map(department => department.name)"
+                :items="departments.map(department => department.name).sort((a, b) => a.localeCompare(b))"
                 item-text="name"
                 item-value="id"
                 label="Selecione o Setor"
@@ -41,7 +41,7 @@
               ></v-select>
               <v-select
                 v-model="selectedSystems.value.value"
-                :items="systems.map(item => item.name)"
+                :items="systems.map(item => item.name).sort((a, b) => a.localeCompare(b))"
                 label="Gerenciar Sistemas"
                 :error-messages="selectedSystems.errorMessage.value"
                 multiple

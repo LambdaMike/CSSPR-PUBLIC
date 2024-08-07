@@ -12,6 +12,8 @@ declare module 'vue' {
     CreateUser: typeof import('./src/components/CreateUser.vue')['default']
     Dashboard: typeof import('./src/components/Dashboard.vue')['default']
     DataTableUser: typeof import('./src/components/DataTableUser.vue')['default']
+    EditField: typeof import('./src/components/editField.vue')['default']
+    EditUser: typeof import('./src/components/EditUser.vue')['default']
     FooterBar: typeof import('./src/components/FooterBar.vue')['default']
     ListSystems: typeof import('./src/components/ListSystems.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']

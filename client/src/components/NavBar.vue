@@ -1,5 +1,5 @@
 <template>
-    <v-layout style="min-height: 60px;">
+    <v-layout style="min-height: 60px; max-width: 100%;">
         <v-app-bar
           color="teal-darken-4"
           image="../assets/bandeira.svg"

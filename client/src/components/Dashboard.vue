@@ -13,7 +13,7 @@
               <create-user :create="true" />
             </div>
             <div v-else-if="selectedTab == 2">
-              <create-role />
+              <edit-user></edit-user>
             </div>
             <div v-else-if="selectedTab == 3">
               <create-department />
@@ -53,6 +53,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  max-width: 100%;
 }
 
 .fill-height {
