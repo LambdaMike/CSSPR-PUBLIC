@@ -68,7 +68,7 @@
 <script lang="ts">
 export default {
   data: () => ({
-    tab: null,
+    tab: '/',
     items: [
       { title: 'Admin', icon: 'mdi-lock', url: '/admin/' },
       { title: 'Opções', icon: 'mdi-cog',  url: '/settings/'},
