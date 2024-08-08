@@ -96,12 +96,73 @@ async function main() {
     }
   ]
 
+  // DISCLAIMER: This is a simple seed script to populate the database with some initial data. Not related to real world data.
   const users = [
     {
-      name: 'user',
-      email: 'email@email.com',
+      name: 'Victor Marques',
+      email: 'victor.marques@pge.pr.gov.br',
       roleId: 1,
-      departmentId: 1
+      departmentId: 56
+    },
+    {
+      name: 'Paulo Gomes',
+      email: 'paulo-gomes@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Maria Silva',
+      email: 'maria-silva@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'João Souza',
+      email: 'joao-souza@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Ana Oliveira',
+      email: 'ana-oliveira@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Carlos Lima',
+      email: 'carlos-lima@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Fernanda Costa',
+      email: 'fernanda-costa@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Ricardo Pereira',
+      email: 'ricardo-pereira@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Juliana Santos',
+      email: 'juliana-santos@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Roberto Almeida',
+      email: 'roberto-almeida@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
+    },
+    {
+      name: 'Patricia Rodrigues',
+      email: 'patricia-rodrigues@pge.pr.gov.br',
+      roleId: Math.floor(Math.random() * 7) + 1,
+      departmentId: Math.floor(Math.random() * 55) + 1
     }
   ]
 

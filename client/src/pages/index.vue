@@ -3,7 +3,7 @@
     <nav-bar @update-tab="handleTabUpdate"></nav-bar>
     <v-container fluid class="fill-height">
       <create-user v-if="tab === 1" />
-      <edit-user v-else-if="tab === 2" />
+      <create-role v-else-if="tab === 2"></create-role>
       <create-department v-else-if="tab === 3" />
       <data-table-user v-else />
     </v-container>

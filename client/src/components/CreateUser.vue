@@ -169,7 +169,6 @@
   const role = useField('role');
   const sid = useField('sid');
   const department = useField('department');
-  const systems = ref([]);
   const selectedSystems = useField('SelectedSystems');
   const tur = ref(false);
   const tcc = ref(false);
@@ -177,6 +176,7 @@
   // api
   const departments = ref([]);
   const roles = ref([]);
+  const systems = ref([]);
 
   const submit = handleSubmit(values => {
       loading.value = true;

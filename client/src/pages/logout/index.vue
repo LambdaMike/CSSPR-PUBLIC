@@ -23,7 +23,6 @@ export default {
             }
         })
         .catch(error => {
-            // Handle any errors here
             console.error('An error occurred:', error);
         })
         .finally(() => {
@@ -35,6 +34,6 @@ export default {
 
 <template>
     <div>
-        <h1>Saindo...</h1>
+        <h1></h1>
     </div>
 </template>

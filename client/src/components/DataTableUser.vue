@@ -40,7 +40,6 @@
                   variant="solo"
                   hide-details
                   single-line
-                  @click:append-inner="onClick"
                 ></v-text-field>
               </v-card-text>
             </template>
@@ -58,7 +57,7 @@
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogEdit">
-            <edit-user></edit-user>
+            <edit-user :userId="id"></edit-user>
           </v-dialog>
         </v-toolbar>
       </template>
@@ -83,17 +82,17 @@
       :size="60"
       color="primary"
       indeterminate
-    ></v-progress-circular>
-
-  </template>
+      ></v-progress-circular>
+      
+    </template>
 
 <script setup>
   import { ref, reactive, watch, onMounted, nextTick } from 'vue';
   import axios from 'axios';
-
+  
   import toastr from 'toastr';
   import 'toastr/build/toastr.min.css';
-
+  
   const isMounted = ref(false) 
   const loading = ref(true);
   const dialog = ref(false);
@@ -124,13 +123,18 @@
     roleId: -1,
     departmentId: -1,
   };
+  const id = ref(1);
   
   const usersData = ref([]);
   const roles = ref([]);
   const departments = ref([]);
-
+  
   watch(dialog, (val) => {
     if (!val) close();
+    // implement auto update table
+    if (!val) {
+      console.log("CLOSED")
+    }
   });
   
   watch(dialogDelete, (val) => {
@@ -148,7 +152,7 @@
   });
   
   function editItem(item) {
-    console.log(item);
+    id.value = item.id;
     dialogEdit.value = true;
   }
   
@@ -193,15 +197,6 @@
     });
   }
   
-  function save() {
-    if (editedIndex.value > -1) {
-      Object.assign(users.value[editedIndex.value], editedItem);
-    } else {
-      users.value.push({ ...editedItem });
-    }
-    close();
-  }
-
   async function fetchData() {
     try {
       const users = await axios.get('http://localhost:3001/api/user', {

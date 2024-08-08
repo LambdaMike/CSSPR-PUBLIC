@@ -44,6 +44,19 @@ export const findAll = async (req: Request, res: Response) => {
         const permissions = await prisma.permission.findMany();
         res.status(200).json(permissions);
     } catch (e) {
-        res.status(500).json({ message: "Error on find departments." });
+        res.status(500).json({ message: "Error on find permissions." });
+    }
+};
+
+export const findOne = async (req: Request, res: Response) => {
+    try {
+        const permissions = await prisma.permission.findMany({
+            where: { 
+                userId: Number(req.params.id),
+             }
+        });
+        res.status(200).json(permissions);
+    } catch (e) {
+        res.status(500).json({ message: "Error on find user permissions." });
     }
 };

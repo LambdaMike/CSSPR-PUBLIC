@@ -14,7 +14,6 @@ declare module 'vue' {
     DataTableUser: typeof import('./src/components/DataTableUser.vue')['default']
     EditField: typeof import('./src/components/editField.vue')['default']
     EditUser: typeof import('./src/components/EditUser.vue')['default']
-    Footer: typeof import('./src/components/Footer.vue')['default']
     FooterBar: typeof import('./src/components/FooterBar.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
