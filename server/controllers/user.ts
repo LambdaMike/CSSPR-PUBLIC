@@ -92,6 +92,9 @@ export const findOne = async (req: Request, res: Response) => {
             where: { 
                 id: Number(req.params.id),
                 deletedAt: null
+             },
+             include: {
+                 permissions: true
              }
         });
         res.status(200).json(user);

@@ -161,7 +161,6 @@
         return true
       }
     },
-
   })
 
   const name = useField('name');
